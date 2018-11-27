@@ -9,6 +9,7 @@ public class ObservedPin {
     }
 
     public static List<String> getPINs(String observed) {
+        List<String> result = new LinkedList<>();
         String[][] varriantsOfDigits = initializeArray();
 
         char[] observedArray = observed.toCharArray();
@@ -18,9 +19,7 @@ public class ObservedPin {
         for (int i = 0; i < n; i++) {
             observedVarriantsOfDigits[i] = Arrays.copyOf(varriantsOfDigits[observedArray[i] - 48], varriantsOfDigits[observedArray[i] - 48].length);
         }
-        for (int i = 0; i < 2; i++) {
-            System.out.println(Arrays.toString(observedVarriantsOfDigits[i]));
-        }
+
         int[] index = new int[n];
         StringBuilder builder = new StringBuilder();
         while (index[0] < observedVarriantsOfDigits[0].length) {
@@ -28,20 +27,15 @@ public class ObservedPin {
             for (int i = 0; i < n; i++) {
                 builder.append(observedVarriantsOfDigits[i][index[i]]);
             }
-            System.out.println(builder);
+            result.add(builder.toString());
             index = generateCombinations(index);
         }
-
-
-        ArrayList<String> result = new ArrayList<>();
-        result.add(varriantsOfDigits[0][0]);
-        result.add(varriantsOfDigits[0][1]);
         return result;
     }
 
     public static String[][] initializeArray() {
         String[][] varriantsOfDigits = new String[10][];
-        varriantsOfDigits[0] = new String[] {"0", "9"};
+        varriantsOfDigits[0] = new String[] {"0", "8"};
         varriantsOfDigits[1] = new String[] {"1", "2", "4"};
         varriantsOfDigits[2] = new String[] {"1", "2", "3", "5"};
         varriantsOfDigits[3] = new String[] {"2", "3", "6"};
