@@ -1,27 +1,36 @@
 import java.util.*;
 
 public class ObservedPin {
+    private static String[][] observedVarriantsOfDigits;
+    private static int n;
+
     public static void main(String[] args) {
-        System.out.println(getPINs("12"));
+        System.out.println(getPINs("11"));
     }
 
     public static List<String> getPINs(String observed) {
         String[][] varriantsOfDigits = initializeArray();
 
         char[] observedArray = observed.toCharArray();
+        n = observedArray.length;
+        observedVarriantsOfDigits = new String[n][];
 
-        String[][] observedVarriantsOfDigits = new String[observedArray.length][];
-
-        for (int i = 0; i < observedVarriantsOfDigits.length; i++) {
+        for (int i = 0; i < n; i++) {
             observedVarriantsOfDigits[i] = Arrays.copyOf(varriantsOfDigits[observedArray[i] - 48], varriantsOfDigits[observedArray[i] - 48].length);
         }
-//        for (int i = 0; i < 2; i++) {
-//            System.out.println(Arrays.toString(observedVarriantsOfDigits[i]));
-//        }
-
-
-
-
+        for (int i = 0; i < 2; i++) {
+            System.out.println(Arrays.toString(observedVarriantsOfDigits[i]));
+        }
+        int[] index = new int[n];
+        StringBuilder builder = new StringBuilder();
+        while (index[0] < observedVarriantsOfDigits[0].length) {
+            builder.delete(0, builder.length());
+            for (int i = 0; i < n; i++) {
+                builder.append(observedVarriantsOfDigits[i][index[i]]);
+            }
+            System.out.println(builder);
+            index = generateCombinations(index);
+        }
 
 
         ArrayList<String> result = new ArrayList<>();
@@ -45,4 +54,15 @@ public class ObservedPin {
         return varriantsOfDigits;
     }
 
+    private static int[] generateCombinations(int[] arr) {
+        for (int i = n - 1; i >= 0; i--)
+            if (arr[i] < observedVarriantsOfDigits[i].length - 1) {
+                arr[i]++;
+                for (int j = i; j < n - 1; j++)
+                    arr[j + 1] = 0;
+                return arr;
+            }
+        arr[0]++;
+        return arr;
+    }
 }
